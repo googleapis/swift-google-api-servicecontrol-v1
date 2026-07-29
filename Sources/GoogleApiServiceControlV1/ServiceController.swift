@@ -64,7 +64,7 @@ public class ServiceControllerClient: Clients.ServiceControllerProtocol {
   /// @Snippet(path: "ServiceController_Check")
   public func check(
     request: CheckRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.CheckResponse {
+  ) async throws -> GoogleApiServiceControlV1.CheckResponse {
     try await self.inner.check(request: request, options: options)
   }
 
@@ -89,7 +89,7 @@ public class ServiceControllerClient: Clients.ServiceControllerProtocol {
   /// @Snippet(path: "ServiceController_Report")
   public func report(
     request: ReportRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.ReportResponse {
+  ) async throws -> GoogleApiServiceControlV1.ReportResponse {
     try await self.inner.report(request: request, options: options)
   }
 }
@@ -102,44 +102,44 @@ extension Clients {
   /// and pass a mock implementation in your tests.
   public protocol ServiceControllerProtocol {
     /// See `ServiceControllerClient.check`.
-    func check(request: CheckRequest) async throws -> GoogleApiServicecontrolV1.CheckResponse
+    func check(request: CheckRequest) async throws -> GoogleApiServiceControlV1.CheckResponse
 
     /// See `ServiceControllerClient.report`.
-    func report(request: ReportRequest) async throws -> GoogleApiServicecontrolV1.ReportResponse
+    func report(request: ReportRequest) async throws -> GoogleApiServiceControlV1.ReportResponse
 
     /// See `ServiceControllerClient.check`.
     func check(
       request: CheckRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.CheckResponse
+    ) async throws -> GoogleApiServiceControlV1.CheckResponse
 
     /// See `ServiceControllerClient.report`.
     func report(
       request: ReportRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.ReportResponse
+    ) async throws -> GoogleApiServiceControlV1.ReportResponse
   }
 }
 
 // Default implementations
 extension Clients.ServiceControllerProtocol {
-  public func check(request: CheckRequest) async throws -> GoogleApiServicecontrolV1.CheckResponse {
+  public func check(request: CheckRequest) async throws -> GoogleApiServiceControlV1.CheckResponse {
     try await self.check(request: request, options: .init())
   }
 
   public func check(
     request: CheckRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.CheckResponse {
+  ) async throws -> GoogleApiServiceControlV1.CheckResponse {
     throw GoogleCloudGax.RequestError.unimplemented
   }
 
   public func report(request: ReportRequest) async throws
-    -> GoogleApiServicecontrolV1.ReportResponse
+    -> GoogleApiServiceControlV1.ReportResponse
   {
     try await self.report(request: request, options: .init())
   }
 
   public func report(
     request: ReportRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.ReportResponse {
+  ) async throws -> GoogleApiServiceControlV1.ReportResponse {
     throw GoogleCloudGax.RequestError.unimplemented
   }
 }

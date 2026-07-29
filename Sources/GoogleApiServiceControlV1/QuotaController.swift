@@ -55,7 +55,7 @@ public class QuotaControllerClient: Clients.QuotaControllerProtocol {
   /// @Snippet(path: "QuotaController_AllocateQuota")
   public func allocateQuota(
     request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse {
+  ) async throws -> GoogleApiServiceControlV1.AllocateQuotaResponse {
     try await self.inner.allocateQuota(request: request, options: options)
   }
 }
@@ -69,26 +69,26 @@ extension Clients {
   public protocol QuotaControllerProtocol {
     /// See `QuotaControllerClient.allocateQuota`.
     func allocateQuota(request: AllocateQuotaRequest) async throws
-      -> GoogleApiServicecontrolV1.AllocateQuotaResponse
+      -> GoogleApiServiceControlV1.AllocateQuotaResponse
 
     /// See `QuotaControllerClient.allocateQuota`.
     func allocateQuota(
       request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse
+    ) async throws -> GoogleApiServiceControlV1.AllocateQuotaResponse
   }
 }
 
 // Default implementations
 extension Clients.QuotaControllerProtocol {
   public func allocateQuota(request: AllocateQuotaRequest) async throws
-    -> GoogleApiServicecontrolV1.AllocateQuotaResponse
+    -> GoogleApiServiceControlV1.AllocateQuotaResponse
   {
     try await self.allocateQuota(request: request, options: .init())
   }
 
   public func allocateQuota(
     request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-  ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse {
+  ) async throws -> GoogleApiServiceControlV1.AllocateQuotaResponse {
     throw GoogleCloudGax.RequestError.unimplemented
   }
 }

@@ -20,52 +20,44 @@ import Foundation
 #endif
 import GoogleCloudWkt
 import GoogleCloudGax
-import struct Logging.Logger
 
 extension Clients {
-  final class QuotaControllerLogging: QuotaControllerStub {
+  final class QuotaControllerRetry: QuotaControllerStub {
     let inner: any QuotaControllerStub
-    let logger: Logger
+    let options: GoogleCloudGax.ClientOptions
 
-    public init(_ inner: any QuotaControllerStub, logger: Logger) {
-      var logger = logger
-      logger[metadataKey: "gcp.artifact.id"] = "google-api-servicecontrol-v1"
-      logger[metadataKey: "gcp.client.service"] = "servicecontrol"
-      logger[metadataKey: "gcp.experimental.swift.client"] = "QuotaController"
+    public init(_ inner: any QuotaControllerStub, options: GoogleCloudGax.ClientOptions) {
       self.inner = inner
-      self.logger = logger
+      self.options = options
     }
 
     func _intercept<Input, Output>(
       request: Input,
       options: GoogleCloudGax.RequestOptions,
-      name: Swift.String,
+      idempotent: Swift.Bool,
       action: (Input, GoogleCloudGax.RequestOptions) async throws -> Output,
     ) async throws -> Output {
-      var logger = logger
-      logger[metadataKey: "gcp.experimental.swift.request.id"] = "\(UUID())"
-      logger[metadataKey: "gcp.experimental.swift.method"] = .string(name)
-      logger.debug("enter  : \(request) \(options)")
-      do {
-        let output = try await action(request, options)
-        logger.debug("success: \(request) \(options) \(output)")
-        return output
-      } catch let error {
-        logger.debug("error  : \(request) \(options) \(error)")
-        throw error
+      let loop = GoogleCloudGax._RetryLoop(
+        options: options, withDefault: self.options, idempotent: idempotent,
+      )
+      let attempt = { (attemptTimeout: Swift.Duration?) async throws -> Output in
+        var attemptOptions = options
+        attemptOptions.attemptTimeout = attemptTimeout
+        return try await action(request, attemptOptions)
       }
+      return try await loop.run(attempt: attempt)
     }
 
     public func allocateQuota(
       request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse {
+    ) async throws -> GoogleApiServiceControlV1.AllocateQuotaResponse {
       try await self._intercept(
         request: request,
         options: options,
-        name: "allocateQuota",
+        idempotent: false,
         action: {
           (r: AllocateQuotaRequest, o: GoogleCloudGax.RequestOptions) async throws
-            -> GoogleApiServicecontrolV1.AllocateQuotaResponse
+            -> GoogleApiServiceControlV1.AllocateQuotaResponse
           in
           return try await self.inner.allocateQuota(request: r, options: o)
         })

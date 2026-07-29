@@ -50,14 +50,14 @@ extension Clients {
 
     public func check(
       request: CheckRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.CheckResponse {
+    ) async throws -> GoogleApiServiceControlV1.CheckResponse {
       try await self._intercept(
         request: request,
         options: options,
         idempotent: false,
         action: {
           (r: CheckRequest, o: GoogleCloudGax.RequestOptions) async throws
-            -> GoogleApiServicecontrolV1.CheckResponse
+            -> GoogleApiServiceControlV1.CheckResponse
           in
           return try await self.inner.check(request: r, options: o)
         })
@@ -65,14 +65,14 @@ extension Clients {
 
     public func report(
       request: ReportRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.ReportResponse {
+    ) async throws -> GoogleApiServiceControlV1.ReportResponse {
       try await self._intercept(
         request: request,
         options: options,
         idempotent: false,
         action: {
           (r: ReportRequest, o: GoogleCloudGax.RequestOptions) async throws
-            -> GoogleApiServicecontrolV1.ReportResponse
+            -> GoogleApiServiceControlV1.ReportResponse
           in
           return try await self.inner.report(request: r, options: o)
         })

@@ -22,13 +22,17 @@ import GoogleCloudWkt
 import GoogleCloudGax
 
 extension Clients {
-  protocol QuotaControllerStub {
-    func allocateQuota(
-      request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse
+  protocol ServiceControllerStub {
+    func check(
+      request: CheckRequest, options: GoogleCloudGax.RequestOptions
+    ) async throws -> GoogleApiServiceControlV1.CheckResponse
+
+    func report(
+      request: ReportRequest, options: GoogleCloudGax.RequestOptions
+    ) async throws -> GoogleApiServiceControlV1.ReportResponse
   }
 
-  class QuotaControllerTransport: QuotaControllerStub {
+  class ServiceControllerTransport: ServiceControllerStub {
     let inner: GoogleCloudGax.HTTPClient
 
     public init(_ options: GoogleCloudGax.ClientOptions = .init()) throws {
@@ -36,15 +40,15 @@ extension Clients {
         from: options, withDefaultEndpoint: "https://servicecontrol.googleapis.com")
     }
 
-    public func allocateQuota(
-      request: AllocateQuotaRequest, options: GoogleCloudGax.RequestOptions
-    ) async throws -> GoogleApiServicecontrolV1.AllocateQuotaResponse {
+    public func check(
+      request: CheckRequest, options: GoogleCloudGax.RequestOptions
+    ) async throws -> GoogleApiServiceControlV1.CheckResponse {
       let path = try { () throws -> Swift.String in
         guard let pathVariable0 = request.serviceName as Swift.String?, !pathVariable0.isEmpty
         else {
           throw GoogleCloudGax.RequestError.binding("'request.service_name' is not set or is empty")
         }
-        return "/v1/services/\(pathVariable0):allocateQuota"
+        return "/v1/services/\(pathVariable0):check"
       }()
       let query = [
         URLQueryItem(name: "$alt", value: "json;enum-encoding=int")
@@ -56,7 +60,30 @@ extension Clients {
       req.httpBody = try JSONEncoder().encode(request)
       let (data, _) = try await self.inner.rpc(for: req).get()
       return try GoogleCloudWkt._ProtoJSONDecoder().decode(
-        GoogleApiServicecontrolV1.AllocateQuotaResponse.self, from: data)
+        GoogleApiServiceControlV1.CheckResponse.self, from: data)
+    }
+
+    public func report(
+      request: ReportRequest, options: GoogleCloudGax.RequestOptions
+    ) async throws -> GoogleApiServiceControlV1.ReportResponse {
+      let path = try { () throws -> Swift.String in
+        guard let pathVariable0 = request.serviceName as Swift.String?, !pathVariable0.isEmpty
+        else {
+          throw GoogleCloudGax.RequestError.binding("'request.service_name' is not set or is empty")
+        }
+        return "/v1/services/\(pathVariable0):report"
+      }()
+      let query = [
+        URLQueryItem(name: "$alt", value: "json;enum-encoding=int")
+      ]
+      var req = try await self.inner.Request(path: path, query: query)
+      req.httpMethod = "POST"
+      req.setValue(Clients.clientHeader, forHTTPHeaderField: "X-Goog-Api-Client")
+      req.setValue("application/json", forHTTPHeaderField: "Content-Type")
+      req.httpBody = try JSONEncoder().encode(request)
+      let (data, _) = try await self.inner.rpc(for: req).get()
+      return try GoogleCloudWkt._ProtoJSONDecoder().decode(
+        GoogleApiServiceControlV1.ReportResponse.self, from: data)
     }
   }
 }
