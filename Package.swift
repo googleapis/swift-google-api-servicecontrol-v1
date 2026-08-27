@@ -24,24 +24,24 @@ let package = Package(
     .library(name: "GoogleApiServiceControlV1", targets: ["GoogleApiServiceControlV1"])
   ],
   dependencies: [
-    .package(path: "../../generated/google-api"),
+    .package(path: "../../generated/swift-google-api"),
     .package(path: "../../packages/auth"),
     .package(path: "../../packages/gax"),
-    .package(path: "../../generated/google-logging-type"),
+    .package(path: "../../generated/swift-google-logging-type"),
     .package(path: "../../packages/wkt"),
-    .package(path: "../../generated/google-rpc"),
+    .package(path: "../../generated/swift-google-rpc"),
     .package(url: "https://github.com/apple/swift-log", from: "1.12.0"),
   ],
   targets: [
     .target(
       name: "GoogleApiServiceControlV1",
       dependencies: [
-        .product(name: "GoogleApi", package: "google-api"),
+        .product(name: "GoogleApi", package: "swift-google-api"),
         .product(name: "GoogleCloudAuth", package: "auth"),
         .product(name: "GoogleCloudGax", package: "gax"),
-        .product(name: "GoogleCloudLoggingType", package: "google-logging-type"),
+        .product(name: "GoogleCloudLoggingType", package: "swift-google-logging-type"),
         .product(name: "GoogleCloudWKT", package: "wkt"),
-        .product(name: "GoogleRpc", package: "google-rpc"),
+        .product(name: "GoogleRpc", package: "swift-google-rpc"),
         .product(name: "Logging", package: "swift-log"),
       ],
     )
